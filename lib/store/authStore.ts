@@ -5,11 +5,11 @@ import { persist } from "zustand/middleware";
 interface NoteStore {
   user: User;
   isAuthenticated: boolean;
-  setUser: (user: User) => void;
+  setUser: (user: User, isAuthenticated: boolean) => void;
   clearIsAuthenticated: () => void;
 }
 
-const initialUser = {
+const initialUser: User = {
   email: "",
   username: "",
   avatar: "",
@@ -26,7 +26,7 @@ export const useNoteStore = create<NoteStore>()(
             user,
             isAuthenticated: true,
           }),
-        clearAuth: () =>
+        clearIsAuthenticated: () =>
           set({
             user: initialUser,
             isAuthenticated: false,
