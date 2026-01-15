@@ -82,3 +82,13 @@ export async function registerUser(userData: UserData) {
   const { data } = await nextServer.post<User>("/auth/register", userData);
   return data;
 }
+
+export async function loginUser(userData: UserData) {
+  const { data } = await nextServer.post<User>("/auth/register", userData);
+  return data;
+}
+
+// export async function logoutUser() {
+//   const { data } = await nextServer.post<User>("/auth/register", userData);
+//   return data;
+// }
