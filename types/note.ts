@@ -26,15 +26,3 @@ export interface NewNote {
 //     }
 //   ],
 //   "totalPages": 5
-
-export interface User {
-  age: number;
-  name: string;
-  isOnline: boolean;
-  id: string;
-}
-
-export interface UserData {
-  email: string;
-  password: string;
-}
