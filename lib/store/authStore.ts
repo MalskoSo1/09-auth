@@ -21,13 +21,24 @@ export const useNoteStore = create<NoteStore>()(
       return {
         user: initialUser,
         isAuthenticated: false,
-        setUser: (userInfo) => set({ user: userInfo }),
-        clearIsAuthenticated: () => set({ user: initialUser }),
+        setUser: (user) =>
+          set({
+            user,
+            isAuthenticated: true,
+          }),
+        clearAuth: () =>
+          set({
+            user: initialUser,
+            isAuthenticated: false,
+          }),
       };
     },
     {
-      name: "note-draft",
-      partialize: (state) => ({ draft: state.user }),
+      name: "auth-user",
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
     }
   )
 );
