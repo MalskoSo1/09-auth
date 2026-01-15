@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import css from "./page.module.css";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Profile | Notes App",
@@ -33,7 +34,7 @@ const Profile = () => {
           </a>
         </div>
         <div className={css.avatarWrapper}>
-          <img
+          <Image
             src="Avatar"
             alt="User Avatar"
             width={120}
