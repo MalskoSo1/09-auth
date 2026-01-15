@@ -1,5 +1,11 @@
 import axios from "axios";
-import type { NewNote, Note } from "../types/note";
+import type {
+  Contact,
+  ContactData,
+  NewNote,
+  Note,
+  UserData,
+} from "../types/note";
 
 interface fetchNotesProps {
   notes: Note[];
@@ -55,4 +61,55 @@ export async function deleteNote(id: string): Promise<Note> {
 export async function fetchNoteById(id: string): Promise<Note> {
   const response = await instance.get<Note>(`/notes/${id}`);
   return response.data;
+}
+
+const nextServer = axios.create({
+  baseURL: "http://localhost:3000/api",
+});
+
+interface GetContactsProps {
+  search?: string;
+  hasWork?: boolean;
+}
+
+interface User {
+  username: string;
+  email: string;
+  avatar: string;
+}
+export async function getContacts({
+  search,
+  hasWork,
+}: GetContactsProps): Promise<Contact[]> {
+  const res = await nextServer.get<Contact[]>("/contacts", {
+    params: { search, hasWork },
+  });
+  return res.data;
+}
+
+export async function getContactById(id: string): Promise<Contact> {
+  const res = await nextServer.get<Contact>(`/contacts/${id}`);
+  return res.data;
+}
+
+export async function getUsers(): Promise<User[]> {
+  const { data } = await nextServer.get<User[]>("/users");
+
+  return data;
+}
+
+export async function getUserById(id: string): Promise<User> {
+  const res = await nextServer.get<User>(`/users/${id}`);
+  return res.data;
+}
+
+export async function addContact(contact: ContactData): Promise<Contact> {
+  const { data } = await nextServer.post<Contact>("/contacts", contact);
+
+  return data;
+}
+
+export async function registerUser(userData: UserData) {
+  const { data } = await nextServer.post<User>("/auth/register", userData);
+  return data;
 }
