@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import api from "./api";
 import { Note } from "@/types/note";
 
-export const checkServerSession = async () => {
+export const checkServer = async () => {
   const cookiStore = await cookies();
 
   const res = await api.get("/auth/session", {
@@ -14,7 +14,7 @@ export const checkServerSession = async () => {
   return res.data;
 };
 
-export const getMeServer = async () => {
+export const getMe = async () => {
   const cookieStore = cookies();
   const res = await api.get("/users/me", {
     headers: {
@@ -30,7 +30,7 @@ interface FetchNotesProps {
   totalPages: number;
 }
 
-export async function fetchNotesServer(
+export async function fetchNotes(
   search: string,
   page: number,
   perPage: number,
@@ -61,7 +61,7 @@ export async function fetchNotesServer(
   return response.data;
 }
 
-export const fetchNoteByIdServer = async (id: string) => {
+export const fetchNoteById = async (id: string) => {
   const cookieStore = cookies();
   const res = await api.get(`/notes/${id}`, {
     headers: { Cookie: cookieStore.toString() },

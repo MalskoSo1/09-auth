@@ -1,12 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import css from "./page.module.css";
+import { useAuthStore } from "@/lib/store/authStore";
+import { useRouter } from "next/router";
+import { registerUser } from "@/lib/api/clientApi";
+import { AxiosError } from "axios";
 
 const SignIn = () => {
   return (
     <main className={css.mainContent}>
       <h1 className={css.formTitle}>Sign up</h1>
-      <form className={css.form}>
+      <form className={css.form} action={() => handleSubmit()}>
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
           <input
@@ -14,6 +19,8 @@ const SignIn = () => {
             type="email"
             name="email"
             className={css.input}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -25,6 +32,8 @@ const SignIn = () => {
             type="password"
             name="password"
             className={css.input}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
