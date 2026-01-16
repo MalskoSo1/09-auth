@@ -1,4 +1,3 @@
-import { fetchNoteById } from "../../../lib/api";
 import {
   dehydrate,
   HydrationBoundary,
@@ -7,6 +6,7 @@ import {
 import NoteDetailsClient from "./NoteDetails.client";
 import { Metadata } from "next";
 import { Note } from "@/types/note";
+import { fetchNoteById } from "@/lib/api/clientApi";
 
 interface PostDetailsProps {
   params: Promise<{ id: string }>;
