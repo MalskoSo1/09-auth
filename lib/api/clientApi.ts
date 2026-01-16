@@ -13,6 +13,10 @@ interface User {
   avatar: string;
 }
 
+interface UpdateUsername {
+  username: string;
+}
+
 export async function fetchNotes(
   search: string,
   page: number,
@@ -79,7 +83,7 @@ export async function getMe(): Promise<User> {
   return data;
 }
 
-export async function updateMe(userData: UserData): Promise<User> {
+export async function updateMe(userData: UpdateUsername): Promise<User> {
   const { data } = await api.patch<User>("/users/me", userData);
   return data;
 }
