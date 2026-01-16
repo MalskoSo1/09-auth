@@ -1,12 +1,54 @@
 "use client";
 
+import { loginUser } from "@/lib/api/clientApi";
 import css from "./page.module.css";
+import { useAuthStore } from "@/lib/store/authStore";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { UserData } from "@/types/user";
 
 const SignIn = () => {
+  const setUser = useAuthStore((s) => s.setUser);
+  const router = useRouter();
+
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    general: "",
+  });
+
+  const handleSubmit = async (formData: FormData) => {
+    setErrors({ email: "", password: "", general: "" });
+    const userData = Object.fromEntries(formData) as unknown as UserData;
+
+    if (!userData.email || !userData.password) {
+      setErrors({
+        email: !userData.email ? "Required" : "",
+        password: !userData.password ? "Required" : "",
+        general: "",
+      });
+      return;
+    }
+
+    try {
+      const user = await loginUser(userData);
+      setUser(user);
+      router.push("/profile");
+    } catch (err) {
+      console.error("Login failed", err);
+      setErrors({
+        email: "",
+        password: "",
+        general: "Login failed. Check your credentials.",
+      });
+    }
+  };
+
   return (
     <main className={css.mainContent}>
-      <h1 className={css.formTitle}>Sign up</h1>
       <form className={css.form} action={handleSubmit}>
+        <h1 className={css.formTitle}>Sign in</h1>
+
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
           <input
@@ -31,11 +73,11 @@ const SignIn = () => {
 
         <div className={css.actions}>
           <button type="submit" className={css.submitButton}>
-            Register
+            Log in
           </button>
         </div>
 
-        <p className={css.error}>Error</p>
+        {errors.general && <p className={css.error}>{errors.general}</p>}
       </form>
     </main>
   );

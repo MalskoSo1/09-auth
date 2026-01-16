@@ -5,18 +5,42 @@ import { registerUser } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useRouter } from "next/navigation";
 import { UserData } from "@/types/user";
+import { useState } from "react";
 
 const SignUp = () => {
   const setUser = useAuthStore((s) => s.setUser);
   const router = useRouter();
 
-  const handleSubmit = async (formData: FormData) => {
-    const userData = Object.fromEntries(formData) as unknown as UserData;
-    const user = await registerUser(userData);
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    general: "",
+  });
 
-    if (user) {
+  const handleSubmit = async (formData: FormData) => {
+    setErrors({ email: "", password: "", general: "" });
+    const userData = Object.fromEntries(formData) as unknown as UserData;
+
+    if (!userData.email || !userData.password) {
+      setErrors({
+        email: !userData.email ? "Required" : "",
+        password: !userData.password ? "Required" : "",
+        general: "",
+      });
+      return;
+    }
+
+    try {
+      const user = await registerUser(userData);
       setUser(user);
       router.push("/profile");
+    } catch (err) {
+      console.error("Registration failed", err);
+      setErrors({
+        email: "",
+        password: "",
+        general: "Registration failed. Check your data or try again.",
+      });
     }
   };
 
@@ -52,7 +76,7 @@ const SignUp = () => {
           </button>
         </div>
 
-        <p className={css.error}>Error</p>
+        {errors.general && <p className={css.error}>{errors.general}</p>}
       </form>
     </main>
   );

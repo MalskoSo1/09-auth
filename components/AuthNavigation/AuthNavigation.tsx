@@ -6,8 +6,8 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { logoutUser } from "@/lib/api/clientApi";
 
 export default function AuthNavigation() {
-  const { user, isAuth } = useAuthStore();
-
+  const user = useAuthStore((s) => s.user);
+  const isAuth = useAuthStore((s) => s.isAuth);
   const clearUser = useAuthStore((s) => s.clearUser);
 
   const handleLogout = async () => {
