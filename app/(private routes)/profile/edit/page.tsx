@@ -13,20 +13,21 @@ const Edit = () => {
   const setUser = useAuthStore((s) => s.setUser);
   const router = useRouter();
 
-  const [username, setUsername] = useState(user?.username || "");
   const [error, setError] = useState("");
 
+  if (!user) return null;
+
   const handleSubmit = async (formData: FormData) => {
-    const username = formData.get("username");
     setError("");
 
-    if (!username.trim()) {
+    const usernameValue = formData.get("username");
+    if (typeof usernameValue !== "string" || !usernameValue.trim()) {
       setError("Username cannot be empty");
       return;
     }
 
     try {
-      const updatedUser: User = await updateMe({ username });
+      const updatedUser: User = await updateMe({ username: usernameValue });
       setUser(updatedUser);
       router.push("/profile");
     } catch (err) {
@@ -38,8 +39,6 @@ const Edit = () => {
   const handleCancel = () => {
     router.back();
   };
-
-  if (!user) return null;
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
@@ -55,8 +54,14 @@ const Edit = () => {
 
         <form className={css.profileInfo} action={handleSubmit}>
           <div className={css.usernameWrapper}>
-            <label htmlFor="username">Username: </label>
-            <input id="username" type="text" className={css.input} />
+            <label htmlFor="username">Username:</label>
+            <input
+              id="username"
+              type="text"
+              name="username"
+              className={css.input}
+              defaultValue={user.username}
+            />
           </div>
 
           <p>Email: {user.email}</p>
