@@ -1,10 +1,11 @@
 "use client";
 
-import { checkSession, getMe } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
 import { usePathname, useRouter } from "next/navigation";
+import { checkSession } from "@/lib/api/clientApi";
+import { getMe } from "@/lib/api/serverApi";
 
 const privateRoutes = ["/notes", "/profile"];
 
