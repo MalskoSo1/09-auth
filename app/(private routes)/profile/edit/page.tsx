@@ -47,7 +47,7 @@ const Edit = () => {
           className={css.avatar}
         />
 
-        <form className={css.profileInfo} action={handleSubmit}>
+        <form className={css.profileInfo} action={() => handleSubmit()}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
             <input
