@@ -14,20 +14,15 @@ const Edit = () => {
   const router = useRouter();
 
   const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
 
   if (!user) return null;
 
   const handleSubmit = async (formData: FormData) => {
     setError("");
 
-    const usernameValue = formData.get("username");
-    if (typeof usernameValue !== "string" || !usernameValue.trim()) {
-      setError("Username cannot be empty");
-      return;
-    }
-
     try {
-      const updatedUser: User = await updateMe({ username: usernameValue });
+      const updatedUser: User = await updateMe({ username });
       setUser(updatedUser);
       router.push("/profile");
     } catch (err) {
@@ -60,7 +55,8 @@ const Edit = () => {
               type="text"
               name="username"
               className={css.input}
-              defaultValue={user.username}
+              value={username}
+              onChange={setUsername}
             />
           </div>
 
