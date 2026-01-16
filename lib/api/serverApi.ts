@@ -11,7 +11,7 @@ export const checkServer = async () => {
     },
   });
 
-  return res.data;
+  return res;
 };
 
 export const getMe = async () => {
