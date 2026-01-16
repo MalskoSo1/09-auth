@@ -1,5 +1,6 @@
 "use client";
 
+import { checkSession, getMe } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useEffect } from "react";
 
@@ -10,7 +11,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       console.log("START REFRESH");
-      const isAuthorized = await refreshSession();
+      const isAuthorized = await checkSession();
       if (isAuthorized) {
         const user = await getMe();
         if (user) {
