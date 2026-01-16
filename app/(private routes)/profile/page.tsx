@@ -1,6 +1,10 @@
+"use client";
+
 import { Metadata } from "next";
 import css from "./page.module.css";
 import Image from "next/image";
+import { useAuthStore } from "@/lib/store/authStore";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Profile | Notes App",
@@ -24,27 +28,28 @@ export const metadata: Metadata = {
 };
 
 const Profile = () => {
+  const user = useAuthStore((s) => s.user);
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
         <div className={css.header}>
           <h1 className={css.formTitle}>Profile Page</h1>
-          <a src="" className={css.editProfileButton}>
+          <Link href="/profile/edit" className={css.editProfileButton}>
             Edit Profile
-          </a>
+          </Link>
         </div>
         <div className={css.avatarWrapper}>
           <Image
-            src="Avatar"
-            alt="User Avatar"
+            src={user?.avatar || "/default-avatar.png"}
+            alt={`Avatar ${user?.username}`}
             width={120}
             height={120}
             className={css.avatar}
           />
         </div>
         <div className={css.profileInfo}>
-          <p>Username: your_username</p>
-          <p>Email: your_email@example.com</p>
+          <p>Username: {user?.username}</p>
+          <p>Email: {user?.email}</p>
         </div>
       </div>
     </main>

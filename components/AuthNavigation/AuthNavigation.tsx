@@ -1,32 +1,46 @@
-import css from "./AuthNavigation.module.css";
+"use client";
 
-const AuthNavigation = () => {
+import Link from "next/link";
+import css from "./AuthNavigation.module.css";
+import { useAuthStore } from "@/lib/store/authStore";
+
+export default function AuthNavigation() {
+  const { user, isAuth } = useAuthStore();
+
   return (
-    //! ?????
     <>
       <li className={css.navigationItem}>
-        <a href="/profile" prefetch={false} className={css.navigationLink}>
+        <Link href="/profile" prefetch={false} className={css.navigationLink}>
           Profile
-        </a>
+        </Link>
       </li>
-
-      <li className={css.navigationItem}>
-        <p className={css.userEmail}>User email</p>
-        <button className={css.logoutButton}>Logout</button>
-      </li>
-
-      <li className={css.navigationItem}>
-        <a href="/sign-in" prefetch={false} className={css.navigationLink}>
-          Login
-        </a>
-      </li>
-
-      <li className={css.navigationItem}>
-        <a href="/sign-up" prefetch={false} className={css.navigationLink}>
-          Sign up
-        </a>
-      </li>
+      {isAuth ? (
+        <li className={css.navigationItem}>
+          <p className={css.userEmail}>{user?.email}</p>
+          <button className={css.logoutButton}>Logout</button>
+        </li>
+      ) : (
+        <>
+          <li className={css.navigationItem}>
+            <Link
+              href="/sign-in"
+              prefetch={false}
+              className={css.navigationLink}
+            >
+              Login
+            </Link>
+          </li>
+          <li className={css.navigationItem}>
+            <Link
+              href="/sign-up"
+              prefetch={false}
+              className={css.navigationLink}
+            >
+              Sign up
+            </Link>
+          </li>
+        </>
+      )}
     </>
   );
-};
-export default AuthNavigation;
+}
