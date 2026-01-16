@@ -14,11 +14,11 @@ const Edit = () => {
   const router = useRouter();
 
   const [error, setError] = useState("");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(user?.username || "");
 
   if (!user) return null;
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async () => {
     setError("");
 
     try {
@@ -56,7 +56,7 @@ const Edit = () => {
               name="username"
               className={css.input}
               value={username}
-              onChange={setUsername}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
