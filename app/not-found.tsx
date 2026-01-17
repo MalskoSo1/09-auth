@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Page Not Found | Notes App",
     description: "This page could not be found in the Notes App.",
-    url: "https://08-zustand-brown-gamma.vercel.app/",
+    url: "https://09-auth-six-dusky.vercel.app/",
     siteName: "Notes App",
     type: "website",
     images: [

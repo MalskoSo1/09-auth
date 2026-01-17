@@ -29,7 +29,7 @@ export async function generateMetadata({
     openGraph: {
       title: `Notes - ${tagName} | Notes App`,
       description: `View all notes tagged as ${tagName}.`,
-      url: `https://08-zustand-brown-gamma.vercel.app/notes/filter/${
+      url: `https://09-auth-six-dusky.vercel.app/notes/filter/${
         currentTag || "all"
       }`,
       siteName: "Notes App",

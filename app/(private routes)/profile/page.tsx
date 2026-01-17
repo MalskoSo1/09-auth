@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import css from "./page.module.css";
 import Image from "next/image";
-import { useAuthStore } from "@/lib/store/authStore";
 import Link from "next/link";
 import { getMe } from "@/lib/api/serverApi";
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Profile | Notes App",
     description: "View and manage your profile information in Notes App.",
-    url: "https://08-zustand-brown-gamma.vercel.app/profile",
+    url: "https://09-auth-six-dusky.vercel.app/profile",
     siteName: "Notes App",
     type: "website",
     images: [

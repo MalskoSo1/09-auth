@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Create Note | Notes App",
     description:
       "Add a new note to your Notes App. Enter title, content, and choose a tag.",
-    url: "https://08-zustand-brown-gamma.vercel.app/notes/action/create",
+    url: "https://09-auth-six-dusky.vercel.app/notes/action/create",
     siteName: "Notes App",
     type: "website",
     images: [
