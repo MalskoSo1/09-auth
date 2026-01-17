@@ -4,14 +4,13 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useEffect, useState } from "react";
 import Loader from "../Loader/Loader";
 import { usePathname, useRouter } from "next/navigation";
-import { checkSession } from "@/lib/api/clientApi";
-import { getMe } from "@/lib/api/serverApi";
+import { checkSession, getMe } from "@/lib/api/clientApi";
 
 const privateRoutes = ["/notes", "/profile"];
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const setUser = useAuthStore((s) => s.setUser);
-  const clearUser = useAuthStore((s) => s.clearUser);
+  const clearIsAuthenticated = useAuthStore((s) => s.clearIsAuthenticated);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -19,16 +18,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const isAuthorized = await checkSession();
-
-      if (isAuthorized) {
-        const user = await getMe();
-        if (user) {
-          setUser(user);
-        }
-      } else {
-        clearUser();
-        if (privateRoutes.some((path) => pathname.startsWith(path))) {
+      if (privateRoutes.some((path) => pathname?.startsWith(path))) {
+        try {
+          const isAuthorized = await checkSession();
+          if (isAuthorized) {
+            const user = await getMe();
+            if (user) {
+              setUser(user);
+            }
+          } else {
+            clearIsAuthenticated();
+            router.replace("/sign-in");
+          }
+        } catch {
+          clearIsAuthenticated();
           router.replace("/sign-in");
         }
       }
@@ -36,7 +39,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     fetchUser();
-  }, [pathname, router, setUser, clearUser]);
+  }, [pathname, router, setUser, clearIsAuthenticated]);
 
   if (loading) return <Loader />;
   return children;

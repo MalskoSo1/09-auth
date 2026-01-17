@@ -1,13 +1,12 @@
 "use client";
 
 import css from "./page.module.css";
-import { registerUser } from "@/lib/api/clientApi";
+import { registerUser, UserData } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useRouter } from "next/navigation";
-import { UserData } from "@/types/user";
 import { useState } from "react";
 
-const SignUp = () => {
+const Register = () => {
   const setUser = useAuthStore((s) => s.setUser);
   const router = useRouter();
 
@@ -46,8 +45,8 @@ const SignUp = () => {
 
   return (
     <main className={css.mainContent}>
-      <h1 className={css.formTitle}>Sign up</h1>
       <form className={css.form} action={handleSubmit}>
+        <h1 className={css.formTitle}>Sign up</h1>
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
           <input
@@ -82,4 +81,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Register;

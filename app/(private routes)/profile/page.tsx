@@ -1,10 +1,9 @@
-"use client";
-
 import { Metadata } from "next";
 import css from "./page.module.css";
 import Image from "next/image";
 import { useAuthStore } from "@/lib/store/authStore";
 import Link from "next/link";
+import { getMe } from "@/lib/api/serverApi";
 
 export const metadata: Metadata = {
   title: "Profile | Notes App",
@@ -27,8 +26,11 @@ export const metadata: Metadata = {
   },
 };
 
-const Profile = () => {
-  const user = useAuthStore((s) => s.user);
+const Profile = async () => {
+  // const user = useAuthStore((s) => s.user);
+
+  const user = await getMe();
+
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>

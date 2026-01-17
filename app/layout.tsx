@@ -5,6 +5,7 @@ import Footer from "@/components/Footer/Footer";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
 import { Metadata } from "next";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
+import "../proxy";
 
 const roboto = Roboto({
   weight: ["500", "600", "700"],

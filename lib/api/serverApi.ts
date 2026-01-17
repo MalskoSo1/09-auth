@@ -15,7 +15,7 @@ export const checkServer = async () => {
 };
 
 export const getMe = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const res = await api.get("/users/me", {
     headers: {
       Cookie: cookieStore.toString(),

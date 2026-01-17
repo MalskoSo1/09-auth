@@ -1,16 +1,15 @@
 import { NewNote, Note } from "@/types/note";
 import api from "./api";
-import { UserData } from "@/types/user";
+import { User } from "@/types/user";
 
 interface fetchNotesProps {
   notes: Note[];
   totalPages: number;
 }
 
-interface User {
-  username: string;
+export interface UserData {
   email: string;
-  avatar: string;
+  password: string;
 }
 
 interface UpdateUsername {

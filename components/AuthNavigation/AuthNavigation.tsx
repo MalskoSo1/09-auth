@@ -8,14 +8,14 @@ import { useRouter } from "next/navigation";
 
 export default function AuthNavigation() {
   const user = useAuthStore((s) => s.user);
-  const isAuth = useAuthStore((s) => s.isAuth);
-  const clearUser = useAuthStore((s) => s.clearUser);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const clearIsAuthenticated = useAuthStore((s) => s.clearIsAuthenticated);
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await logoutUser();
-      clearUser();
+      clearIsAuthenticated();
       router.push("/sign-in");
     } catch (err) {
       console.error("Logout failed", err);
@@ -24,18 +24,24 @@ export default function AuthNavigation() {
 
   return (
     <>
-      <li className={css.navigationItem}>
-        <Link href="/profile" prefetch={false} className={css.navigationLink}>
-          Profile
-        </Link>
-      </li>
-      {isAuth ? (
-        <li className={css.navigationItem}>
-          <p className={css.userEmail}>{user?.email}</p>
-          <button className={css.logoutButton} onClick={handleLogout}>
-            Logout
-          </button>
-        </li>
+      {isAuthenticated ? (
+        <>
+          <li className={css.navigationItem}>
+            <Link
+              href="/profile"
+              prefetch={false}
+              className={css.navigationLink}
+            >
+              Profile
+            </Link>
+          </li>
+          <li className={css.navigationItem}>
+            <p className={css.userEmail}>{user?.email}</p>
+            <button className={css.logoutButton} onClick={handleLogout}>
+              Logout
+            </button>
+          </li>
+        </>
       ) : (
         <>
           <li className={css.navigationItem}>

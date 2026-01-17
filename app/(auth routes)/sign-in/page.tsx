@@ -1,13 +1,12 @@
 "use client";
 
-import { loginUser } from "@/lib/api/clientApi";
+import { loginUser, UserData } from "@/lib/api/clientApi";
 import css from "./page.module.css";
 import { useAuthStore } from "@/lib/store/authStore";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { UserData } from "@/types/user";
 
-const SignIn = () => {
+const Login = () => {
   const setUser = useAuthStore((s) => s.setUser);
   const router = useRouter();
 
@@ -83,4 +82,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;
