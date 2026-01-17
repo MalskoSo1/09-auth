@@ -12,7 +12,7 @@ export interface UserData {
   password: string;
 }
 
-interface UpdateUsername {
+export interface UpdateUserData {
   username: string;
 }
 
@@ -82,7 +82,7 @@ export async function getMe(): Promise<User> {
   return data;
 }
 
-export async function updateMe(userData: UpdateUsername): Promise<User> {
+export async function updateMe(userData: UpdateUserData): Promise<User> {
   const { data } = await api.patch<User>("/users/me", userData);
   return data;
 }

@@ -6,23 +6,29 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { User } from "@/types/user";
-import { updateMe } from "@/lib/api/clientApi";
+import { updateMe, UpdateUserData } from "@/lib/api/clientApi";
 
 const Edit = () => {
   const user = useAuthStore((s) => s.user);
   const setUser = useAuthStore((s) => s.setUser);
-  const router = useRouter();
-
-  const [error, setError] = useState("");
   const [username, setUsername] = useState(user?.username || "");
+  const router = useRouter();
+  const [error, setError] = useState("");
 
   if (!user) return null;
-
-  const handleSubmit = async () => {
-    setError("");
-
+  const handleSubmit = async (formData: FormData) => {
     try {
-      const updatedUser: User = await updateMe({ username });
+      setError("");
+      const userData = Object.fromEntries(
+        formData
+      ) as unknown as UpdateUserData;
+
+      if (!userData.username) {
+        setError("Username is required.");
+        return;
+      }
+
+      const updatedUser: User = await updateMe(userData);
       setUser(updatedUser);
       router.push("/profile");
     } catch (err) {
@@ -34,6 +40,7 @@ const Edit = () => {
   const handleCancel = () => {
     router.back();
   };
+
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
@@ -47,7 +54,7 @@ const Edit = () => {
           className={css.avatar}
         />
 
-        <form className={css.profileInfo} action={() => handleSubmit()}>
+        <form className={css.profileInfo} action={handleSubmit}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
             <input

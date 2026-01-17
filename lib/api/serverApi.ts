@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import api from "./api";
 import { Note } from "@/types/note";
+import { User } from "@/types/user";
 
 export const checkServer = async () => {
   const cookiStore = await cookies();
@@ -14,7 +15,7 @@ export const checkServer = async () => {
   return res;
 };
 
-export const getMe = async () => {
+export const getMe = async (): Promise<User> => {
   const cookieStore = await cookies();
   const res = await api.get("/users/me", {
     headers: {
@@ -36,7 +37,7 @@ export async function fetchNotes(
   perPage: number,
   tag?: string
 ): Promise<FetchNotesProps> {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const params: {
     page: number;
@@ -61,8 +62,8 @@ export async function fetchNotes(
   return response.data;
 }
 
-export const fetchNoteById = async (id: string) => {
-  const cookieStore = cookies();
+export const fetchNoteById = async (id: string): Promise<Note> => {
+  const cookieStore = await cookies();
   const res = await api.get(`/notes/${id}`, {
     headers: { Cookie: cookieStore.toString() },
   });
