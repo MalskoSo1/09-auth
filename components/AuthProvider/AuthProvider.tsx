@@ -25,11 +25,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
         } else {
           clearIsAuthenticated();
-          router.replace("/sign-in");
+
+          if (pathname !== "/") {
+            router.replace("/sign-in");
+          }
         }
       } catch {
         clearIsAuthenticated();
-        router.replace("/sign-in");
+        if (pathname !== "/") {
+          router.replace("/sign-in");
+        }
       }
 
       setLoading(false);
