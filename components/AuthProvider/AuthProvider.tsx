@@ -6,8 +6,6 @@ import Loader from "../Loader/Loader";
 import { usePathname, useRouter } from "next/navigation";
 import { checkSession, getMe } from "@/lib/api/clientApi";
 
-const privateRoutes = ["/notes", "/profile"];
-
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const setUser = useAuthStore((s) => s.setUser);
   const clearIsAuthenticated = useAuthStore((s) => s.clearIsAuthenticated);
@@ -18,23 +16,22 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (privateRoutes.some((path) => pathname?.startsWith(path))) {
-        try {
-          const isAuthorized = await checkSession();
-          if (isAuthorized) {
-            const user = await getMe();
-            if (user) {
-              setUser(user);
-            }
-          } else {
-            clearIsAuthenticated();
-            router.replace("/sign-in");
+      try {
+        const isAuthorized = await checkSession();
+        if (isAuthorized) {
+          const user = await getMe();
+          if (user) {
+            setUser(user);
           }
-        } catch {
+        } else {
           clearIsAuthenticated();
           router.replace("/sign-in");
         }
+      } catch {
+        clearIsAuthenticated();
+        router.replace("/sign-in");
       }
+
       setLoading(false);
     };
 
