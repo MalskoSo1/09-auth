@@ -7,6 +7,10 @@ body {
   background-color: #f8f9fa;
 }
 
+main {
+  flex: 1;
+}
+
 .text-error {
   font-size: 16px;
   text-align: center;
