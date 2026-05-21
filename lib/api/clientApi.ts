@@ -72,10 +72,10 @@ export async function logoutUser(): Promise<void> {
   await api.post("/auth/logout");
 }
 
-export async function checkSession(): Promise<User | null> {
-  const { data } = await api.get<User>("/auth/session");
-  return data;
-}
+// export async function checkSession(): Promise<User | null> {
+//   const { data } = await api.get<User>("/auth/session");
+//   return data;
+// }
 
 export async function getMe(): Promise<User> {
   const { data } = await api.get<User>("/users/me");
